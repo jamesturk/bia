@@ -3,15 +3,17 @@ from collections import defaultdict
 
 _UNITS = {
     # mass
-    'kg': {'base': 'kg', 'scale': 1.0},
-    'lb': {'base': 'kg', 'scale': 2.20462},
-    'g':  {'base': 'kg', 'scale': 1000.0},
+    'kg': {'type': 'mass', 'scale': 1.0},
+    'lb': {'type': 'mass', 'scale': 2.20462},
+    'g':  {'type': 'mass', 'scale': 1000.0},
 
-    'm':  {'base': 'm', 'scale': 1.0},
-    'cm': {'base': 'm', 'scale': 100.0},
-    'ft': {'base': 'm', 'scale': 3.28084},
+    # length
+    'm':  {'type': 'length', 'scale': 1.0},
+    'cm': {'type': 'length', 'scale': 100.0},
+    'ft': {'type': 'length', 'scale': 3.28084},
 
-    's': {'base': 's', 'scale': 1.0},
+    # time
+    's': {'type': 'time', 'scale': 1.0},
 }
 
 
@@ -58,6 +60,14 @@ class Unit(object):
                 self.denominator.remove(u)
 
     def conversion_factor(self, other):
+        if (sorted([_UNITS[u]['type'] for u in self.numerator]) !=
+            sorted([_UNITS[u]['type'] for u in other.numerator])):
+                raise ConversionError('cannot convert {} to {}')
+        if (sorted([_UNITS[u]['type'] for u in self.denominator]) !=
+            sorted([_UNITS[u]['type'] for u in other.denominator])):
+                raise ConversionError('cannot convert {} to {}')
+
+        # compute factor
         factor = 1
         for u in self.numerator:
             factor /= _UNITS[u]['scale']

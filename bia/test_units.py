@@ -1,4 +1,5 @@
-from .units import Unit
+import pytest
+from .units import Unit, ConversionError
 from .units import UnitValue as V
 
 
@@ -35,6 +36,15 @@ def test_complex_conversions():
     assert g_ft.scalar - 32 < 1
     assert g_ft.unit == Unit(['ft'], ['s', 's'])
 
+
+def test_invalid_conversion_basic():
+    with pytest.raises(ConversionError):
+        V(1, 'm').as_unit('s')
+
+
+def test_invalid_conversion_dimension():
+    with pytest.raises(ConversionError):
+        V(1, ['m']).as_unit(['m', 'm'])
 
 
 def test_basic_cmp():
