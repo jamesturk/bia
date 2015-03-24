@@ -30,9 +30,14 @@ def test_basic_cmp():
 
 def test_conversion_cmp():
     assert Mass(1, 'kg') < Mass(100, 'lb')
-    assert Mass(10000000, 'g') > Mass(100, 'lb')
+    assert Mass(1000000, 'g') > Mass(100, 'lb')
 
 
-def test_add_sub():
+def test_addition():
     assert Mass(1, 'kg') + Mass(2, 'kg') == Mass(3, 'kg')
+    assert Mass(1, 'kg') + Mass(1, 'lb') > Mass(1.4, 'kg')
+
+
+def test_subtraction():
     assert Mass(2, 'kg') - Mass(1, 'kg') == Mass(1, 'kg')
+    assert Mass(1, 'kg') - Mass(1, 'lb') < Mass(0.55, 'kg')

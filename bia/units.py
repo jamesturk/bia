@@ -13,7 +13,7 @@ class Unit(object):
     _mapping = {}
 
     def __init__(self, n, unit):
-        self.scalar = n
+        self.scalar = float(n)
         if unit not in self._mapping:
             raise ValueError('invalid unit {} for {}'.format(unit, self.__class__.__name__))
         self.unit = unit
@@ -41,7 +41,8 @@ class Unit(object):
     def __cmp__(self, other):
         if self.unit != other.unit:
             other = other.as_unit(self.unit)
-        return self.scalar - other.scalar
+        # cmp() removed in Python 3, recommended to replace with this
+        return (self.scalar > other.scalar) - (self.scalar < other.scalar)
 
     def __add__(self, other):
         if self.unit != other.unit:
