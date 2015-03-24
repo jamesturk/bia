@@ -18,6 +18,11 @@ def test_basic_conversions():
     assert g.as_unit('lb').scalar == a.as_unit('lb').scalar
 
 
+def test_complex_conversion():
+    a = Mass(2, ['kg', 'kg'])
+    b = a.as_unit('lb')
+
+
 def test_basic_cmp():
     assert Mass(1, 'kg') < Mass(2, 'kg')
     assert Mass(1, 'kg') <= Mass(2, 'kg')
@@ -41,3 +46,13 @@ def test_addition():
 def test_subtraction():
     assert Mass(2, 'kg') - Mass(1, 'kg') == Mass(1, 'kg')
     assert Mass(1, 'kg') - Mass(1, 'lb') < Mass(0.55, 'kg')
+
+
+def test_multiplication():
+    assert Mass(2, 'kg') * 2 == Mass(4, 'kg')
+    assert Mass(2, 'kg') * Mass(1, 'kg') == Mass(2, ['kg', 'kg'])
+
+
+def test_division():
+    assert Mass(8, 'kg') / 2 == Mass(4, 'kg')
+    assert Mass(2, 'kg') / Mass(1, 'kg') == Mass(2, [])
