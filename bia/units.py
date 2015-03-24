@@ -38,8 +38,20 @@ class Unit(object):
     def __repr__(self):
         return 'U({}, {!r})'.format(self.scalar, self.unit)
 
-    def __cmp__(self):
-        pass
+    def __cmp__(self, other):
+        if self.unit != other.unit:
+            other = other.as_unit(self.unit)
+        return self.scalar - other.scalar
+
+    def __add__(self, other):
+        if self.unit != other.unit:
+            other = other.as_unit(self.unit)
+        return self.__class__(self.scalar.__add__(other.scalar), self.unit)
+
+    def __sub__(self, other):
+        if self.unit != other.unit:
+            other = other.as_unit(self.unit)
+        return self.__class__(self.scalar.__sub__(other.scalar), self.unit)
 
 
 class Mass(Unit):

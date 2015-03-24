@@ -16,3 +16,23 @@ def test_basic_conversions():
     assert g.unit == 'g'
 
     assert g.as_unit('lb').scalar == a.as_unit('lb').scalar
+
+
+def test_basic_cmp():
+    assert Mass(1, 'kg') < Mass(2, 'kg')
+    assert Mass(1, 'kg') <= Mass(2, 'kg')
+    assert Mass(2, 'kg') <= Mass(2, 'kg')
+    assert Mass(2, 'kg') == Mass(2, 'kg')
+    assert Mass(2, 'kg') >= Mass(2, 'kg')
+    assert Mass(2, 'kg') > Mass(1, 'kg')
+    assert Mass(2, 'kg') >= Mass(1, 'kg')
+
+
+def test_conversion_cmp():
+    assert Mass(1, 'kg') < Mass(100, 'lb')
+    assert Mass(10000000, 'g') > Mass(100, 'lb')
+
+
+def test_add_sub():
+    assert Mass(1, 'kg') + Mass(2, 'kg') == Mass(3, 'kg')
+    assert Mass(2, 'kg') - Mass(1, 'kg') == Mass(1, 'kg')
