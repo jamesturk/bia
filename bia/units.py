@@ -81,9 +81,9 @@ class UnitValue(object):
     def as_unit(self, unit):
         unit = Unit.unit(unit)
         if self.unit == unit:
-            return self.__class__(self.scalar, self.unit)
+            return UnitValue(self.scalar, self.unit)
 
-        return self.__class__(self.scalar * self.unit.conversion_factor(unit), unit)
+        return UnitValue(self.scalar * self.unit.conversion_factor(unit), unit)
 
     def __str__(self):
         return '{}{}'.format(self.scalar, self.unit)
@@ -100,25 +100,25 @@ class UnitValue(object):
     def __add__(self, other):
         if self.unit != other.unit:
             other = other.as_unit(self.unit)
-        return self.__class__(self.scalar + other.scalar, self.unit)
+        return UnitValue(self.scalar + other.scalar, self.unit)
 
     def __sub__(self, other):
         if self.unit != other.unit:
             other = other.as_unit(self.unit)
-        return self.__class__(self.scalar - other.scalar, self.unit)
+        return UnitValue(self.scalar - other.scalar, self.unit)
 
     def __mul__(self, other):
         if isinstance(other, UnitValue):
             if self.unit != other.unit:
                 other = other.as_unit(self.unit)
-            return self.__class__(self.scalar * other.scalar, self.unit * other.unit)
+            return UnitValue(self.scalar * other.scalar, self.unit * other.unit)
         else:
-            return self.__class__(self.scalar * other, self.unit)
+            return UnitValue(self.scalar * other, self.unit)
 
     def __div__(self, other):
         if isinstance(other, UnitValue):
             if self.unit != other.unit:
                 other = other.as_unit(self.unit)
-            return self.__class__(self.scalar / other.scalar, self.unit / other.unit)
+            return UnitValue(self.scalar / other.scalar, self.unit / other.unit)
         else:
-            return self.__class__(self.scalar / other, self.unit)
+            return UnitValue(self.scalar / other, self.unit)
