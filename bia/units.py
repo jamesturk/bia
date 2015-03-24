@@ -7,7 +7,11 @@ _UNITS = {
     'lb': {'base': 'kg', 'scale': 2.20462},
     'g':  {'base': 'kg', 'scale': 1000.0},
 
-    'm': {'base': 'm', 'scale': 1.0},
+    'm':  {'base': 'm', 'scale': 1.0},
+    'cm': {'base': 'm', 'scale': 100.0},
+    'ft': {'base': 'm', 'scale': 3.28084},
+
+    's': {'base': 's', 'scale': 1.0},
 }
 
 

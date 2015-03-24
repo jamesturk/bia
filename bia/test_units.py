@@ -24,6 +24,19 @@ def test_basic_conversions():
     assert g.as_unit('lb').scalar == a.as_unit('lb').scalar
 
 
+def test_complex_conversions():
+    a = V(2, ['m', 'm'])
+    cm2 = a.as_unit(['cm', 'cm'])
+    assert cm2.scalar == 20000
+    assert cm2.unit == Unit(['cm', 'cm'])
+
+    g = V(9.8, Unit(['m'], ['s', 's']))
+    g_ft = g.as_unit(Unit(['ft'], ['s', 's']))
+    assert g_ft.scalar - 32 < 1
+    assert g_ft.unit == Unit(['ft'], ['s', 's'])
+
+
+
 def test_basic_cmp():
     assert V(1, 'kg') < V(2, 'kg')
     assert V(1, 'kg') <= V(2, 'kg')
