@@ -8,7 +8,7 @@ exercise
     _id
     name
     category_id
-    exercise_type_id
+    exercise_type_id        0=lifting, 1=cardio
     notes
     weight_increment
 
