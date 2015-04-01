@@ -16,11 +16,13 @@ class TestFitnotesImport(TestCase):
     #   squat 3 @ 135
     #   squat 2 @ 185
     #   squat 5 @ 225
-    import_fitnotes_db('example.fitnotes')
 
-    #assert Exercise.objects.count() == 2
+    def test_basic_import(self):
+        import_fitnotes_db('lifting/testdata/example.fitnotes')
 
-    bp = Exercise.objects.get(name="bench press")
-    squat = Exercise.objects.get(name="barbell squat")
+        assert Exercise.objects.count() == 2
 
-    assert Set.objects.count() == 9
+        bp = Exercise.objects.get(name="flat barbell bench press")
+        squat = Exercise.objects.get(name="barbell squat")
+
+        assert Set.objects.count() == 9

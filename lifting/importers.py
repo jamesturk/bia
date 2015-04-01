@@ -17,15 +17,15 @@ def import_fitnotes_db(filename):
     cur = conn.cursor()
     for fnid, ename in cur.execute('SELECT _id, name FROM exercise WHERE exercise_type_id=0'):
         cleaned = _clean_name(ename)
-        if cleaned in exercises:
-            exercise_id_mapping[fnid] = exercises[cleaned]
+        # map to an Exercise id or str
+        exercise_id_mapping[fnid] = exercises[cleaned] if cleaned in exercises else cleaned
 
     for fnid, date, weight_kg, reps in cur.execute(
         'SELECT exercise_id, date, metric_weight, reps FROM training_log'):
 
         # create Exercise if it wasn't found and there's a workout using it
-        if fnid not in exercise_id_mapping:
-            exercise_id_mapping[fnid] = Exercise.objects.create(name=cleaned).id
+        if isinstance(exercise_id_mapping[fnid], str):
+            exercise_id_mapping[fnid] = Exercise.objects.create(name=exercise_id_mapping[fnid]).id
 
         exercise_id = exercise_id_mapping[fnid]
 
