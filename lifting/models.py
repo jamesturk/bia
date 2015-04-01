@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
 SET_TYPES = (
@@ -15,6 +16,7 @@ class Exercise(models.Model):
 
 
 class Set(models.Model):
+    user = models.ForeignKey(User, related_name='sets')
     date = models.DateField()
     exercise = models.ForeignKey(Exercise, related_name='sets')
     weight_kg = models.DecimalField(max_digits=7, decimal_places=3)

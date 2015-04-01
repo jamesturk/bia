@@ -7,7 +7,7 @@ def _clean_name(name):
     return name.lower()
 
 
-def import_fitnotes_db(filename):
+def import_fitnotes_db(filename, user):
     # exercise names to db ids
     exercises = {}
     for e in Exercise.objects.all():
@@ -37,4 +37,4 @@ def import_fitnotes_db(filename):
             exercise_id = exercise_id_mapping[fnid]
 
             Set.objects.create(exercise_id=exercise_id, date=date, weight_kg=weight_kg, reps=reps,
-                            source='fitnotes')
+                               source='fitnotes', user=user)
