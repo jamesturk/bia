@@ -1,4 +1,5 @@
 import sqlite3
+from django.db import transaction
 from lifting.models import Exercise, Set
 
 
@@ -23,16 +24,17 @@ def import_fitnotes_db(filename):
         # map to an Exercise id or str
         exercise_id_mapping[fnid] = exercises[cleaned] if cleaned in exercises else cleaned
 
-    Set.objects.filter(source='fitnotes').delete()
-    for fnid, date, weight_kg, reps in cur.execute(
-        'SELECT exercise_id, date, metric_weight, reps FROM training_log'):
+    with transaction.atomic():
+        Set.objects.filter(source='fitnotes').delete()
+        for fnid, date, weight_kg, reps in cur.execute(
+            'SELECT exercise_id, date, metric_weight, reps FROM training_log'):
 
-        # create Exercise if it wasn't found and there's a workout using it
-        if isinstance(exercise_id_mapping[fnid], str):
-            exercise_id_mapping[fnid] = Exercise.objects.create(
-                names=[exercise_id_mapping[fnid]]).id
+            # create Exercise if it wasn't found and there's a workout using it
+            if isinstance(exercise_id_mapping[fnid], str):
+                exercise_id_mapping[fnid] = Exercise.objects.create(
+                    names=[exercise_id_mapping[fnid]]).id
 
-        exercise_id = exercise_id_mapping[fnid]
+            exercise_id = exercise_id_mapping[fnid]
 
-        Set.objects.create(exercise_id=exercise_id, date=date, weight_kg=weight_kg, reps=reps,
-                           source='fitnotes')
+            Set.objects.create(exercise_id=exercise_id, date=date, weight_kg=weight_kg, reps=reps,
+                            source='fitnotes')
