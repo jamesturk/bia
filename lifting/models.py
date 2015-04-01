@@ -11,7 +11,7 @@ class Exercise(models.Model):
     names = ArrayField(models.CharField(max_length=200))
 
     def __str__(self):
-        return self.name
+        return self.names
 
 
 class Set(models.Model):

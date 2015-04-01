@@ -18,11 +18,17 @@ class TestFitnotesImport(TestCase):
     #   squat 5 @ 225
 
     def test_basic_import(self):
+        # ensure that the data comes in
         import_fitnotes_db('lifting/testdata/example.fitnotes')
 
         assert Exercise.objects.count() == 2
+        bp = Exercise.objects.get(names__contains=["flat barbell bench press"])
+        squat = Exercise.objects.get(names__contains=["barbell squat"])
+        assert Set.objects.count() == 9
 
-        bp = Exercise.objects.get(name="flat barbell bench press")
-        squat = Exercise.objects.get(name="barbell squat")
-
+    def test_double_import(self):
+        # two identical dbs, should be idempotent
+        import_fitnotes_db('lifting/testdata/example.fitnotes')
+        import_fitnotes_db('lifting/testdata/example.fitnotes')
+        assert Exercise.objects.count() == 2
         assert Set.objects.count() == 9

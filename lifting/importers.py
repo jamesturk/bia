@@ -8,7 +8,10 @@ def _clean_name(name):
 
 def import_fitnotes_db(filename):
     # exercise names to db ids
-    exercises = {_clean_name(e.name): e.id for e in Exercise.objects.all()}
+    exercises = {}
+    for e in Exercise.objects.all():
+        for n in e.names:
+            exercises[_clean_name(n)] = e.id
 
     # build mapping FitNotes exercise id => our exercise id
     exercise_id_mapping = {}
@@ -25,7 +28,8 @@ def import_fitnotes_db(filename):
 
         # create Exercise if it wasn't found and there's a workout using it
         if isinstance(exercise_id_mapping[fnid], str):
-            exercise_id_mapping[fnid] = Exercise.objects.create(name=exercise_id_mapping[fnid]).id
+            exercise_id_mapping[fnid] = Exercise.objects.create(
+                names=[exercise_id_mapping[fnid]]).id
 
         exercise_id = exercise_id_mapping[fnid]
 
