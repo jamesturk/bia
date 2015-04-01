@@ -1,2 +1,3 @@
 pytest
---pre Django
+Django==1.8.0
+psycopg2
