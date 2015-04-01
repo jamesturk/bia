@@ -1,0 +1,12 @@
+---
+- name: Install Postgres
+  hosts: bia-db
+  user: ubuntu
+  sudo: yes
+  roles:
+      - role: common-roles/common
+      - role: common-roles/postgres
+        dbuser: "bia"
+        dbpassword: "test"
+        dbname: "bia"
+        pgversion: 9.4

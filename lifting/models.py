@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 SET_TYPES = (
     ('warmup', 'Warmup'),
@@ -7,7 +8,7 @@ SET_TYPES = (
 
 
 class Exercise(models.Model):
-    name = models.CharField(max_length=200)
+    names = ArrayField(models.CharField(max_length=200))
 
     def __str__(self):
         return self.name
