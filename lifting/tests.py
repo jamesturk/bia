@@ -36,10 +36,8 @@ class TestFitnotesImport(TestCase):
     def test_bad_import(self):
         # good db then bad db, should fail without screwing up existing data
         import_fitnotes_db('lifting/testdata/example.fitnotes')
-        try:
+        with self.assertRaises(Exception):
             # baddata.fitnotes has all exercise ids set to 9999
             import_fitnotes_db('lifting/testdata/baddata.fitnotes')
-        except Exception:
-            pass
         assert Exercise.objects.count() == 2
         assert Set.objects.count() == 9
