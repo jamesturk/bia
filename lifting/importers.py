@@ -23,6 +23,7 @@ def import_fitnotes_db(filename):
         # map to an Exercise id or str
         exercise_id_mapping[fnid] = exercises[cleaned] if cleaned in exercises else cleaned
 
+    Set.objects.filter(source='fitnotes').delete()
     for fnid, date, weight_kg, reps in cur.execute(
         'SELECT exercise_id, date, metric_weight, reps FROM training_log'):
 
@@ -33,4 +34,5 @@ def import_fitnotes_db(filename):
 
         exercise_id = exercise_id_mapping[fnid]
 
-        Set.objects.create(exercise_id=exercise_id, date=date, weight_kg=weight_kg, reps=reps)
+        Set.objects.create(exercise_id=exercise_id, date=date, weight_kg=weight_kg, reps=reps,
+                           source='fitnotes')
