@@ -33,6 +33,15 @@ class TestFitnotesImport(TestCase):
         assert Exercise.objects.count() == 2
         assert Set.objects.count() == 9
 
+    def test_import_with_other_data(self):
+        Exercise.objects.create(names=['incline bench press'])
+        e = Exercise.objects.create(names=['flat barbell bench press'])
+        Set.objects.create(exercise=e, weight_kg=100, reps=10, date='2014-01-01')
+        import_fitnotes_db('lifting/testdata/example.fitnotes')
+        assert Exercise.objects.count() == 3
+        assert Set.objects.count() == 10
+
+
     def test_bad_import(self):
         # good db then bad db, should fail without screwing up existing data
         import_fitnotes_db('lifting/testdata/example.fitnotes')
