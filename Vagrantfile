@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         db.vm.provider "virtualbox" do |v|
             v.memory = 1024
-            v.name = "db.opencivicdata.org"
+            v.name = "db-bia"
         end
 
         db.vm.provision "ansible" do |ansible|
