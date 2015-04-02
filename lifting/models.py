@@ -12,7 +12,7 @@ class Exercise(models.Model):
     names = ArrayField(models.CharField(max_length=200))
 
     def __str__(self):
-        return self.names
+        return ', '.join(self.names)
 
 
 class Set(models.Model):
@@ -22,3 +22,6 @@ class Set(models.Model):
     weight_kg = models.DecimalField(max_digits=7, decimal_places=3)
     reps = models.PositiveIntegerField()
     source = models.CharField(max_length=100)
+
+    def __str__(self):
+        return '{} - {} @ {}kg - {}'.format(self.exercise, self.reps, self.weight_kg, self.date)
