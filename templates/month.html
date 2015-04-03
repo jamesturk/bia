@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="row">
+    <section class="col-sm-6">
+        <h3>{{date|date:"F Y"}}</h3>
+    </section>
+</section>
+
+<section class="row">
+    <section class="col-sm-12">
+        <table class="calendar-month">
+            <thead>
+                <tr>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <tr>
+            </thead>
+            <tbody>
+            {% for week in days %}
+            <tr>
+                {% for day in week %}
+                    <td>
+                        {% if day %}
+                        <span class="calendar-day">{{day.number}}</span>
+                        {{day.sets|length}}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</section>
+
+{% endblock %}
