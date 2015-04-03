@@ -9,7 +9,7 @@
 
 <section class="row">
     <section class="col-sm-12">
-        <table class="calendar-month">
+        <table class="table calendar-month">
             <thead>
                 <tr>
                 <th>Sunday</th>
@@ -25,10 +25,16 @@
             {% for week in days %}
             <tr>
                 {% for day in week %}
-                    <td>
+                    <td class="calendar-day">
                         {% if day %}
-                        <span class="calendar-day">{{day.number}}</span>
-                        {{day.sets|length}}
+                        <div class="day-number">{{day.number}}</div>
+                        <ul>
+                            {% for set in day.sets %}
+                            <li>
+                            {{set}}
+                            </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
                     </td>
                 {% endfor %}
