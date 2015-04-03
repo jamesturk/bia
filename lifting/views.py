@@ -28,10 +28,10 @@ def month(request, year, month):
     # start calendar with a few blank days
     days = [None]*first_day
 
-    for day in range(max_days+1):
+    for day in range(1, max_days+1):
         days.append({'number': day, 'sets': sets_by_day[day]})
 
-    days_by_week = [days[0:7], days[7:14], days[14:21], days[21:28], days[28:35]]
+    days_by_week = [days[0:7], days[7:14], days[14:21], days[21:28], days[28:35], days[35:42]]
 
     return render(request, 'month.html', { 'date': date,
                                           'days': days_by_week
