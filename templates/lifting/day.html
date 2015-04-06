@@ -9,4 +9,27 @@
     </section>
 </section>
 
+<section class="row">
+    <section class="col-sm-12">
+        <table class="table day-workouts">
+            <thead>
+                <tr>
+                <th>Exercise</th>
+                <th>Weight</th>
+                <th>Reps</th>
+                <tr>
+            </thead>
+            <tbody>
+                {% for set in sets %}
+                <tr>
+                    <td>{{set.exercise}}</td>
+                    <td>{{set.weight_kg}} kg</td>
+                    <td>{{set.reps}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</section>
+
 {% endblock %}
