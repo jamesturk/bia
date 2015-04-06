@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load lifting %}
+
 {% block content %}
 
 <section class="row header-row">
@@ -23,7 +25,7 @@
                 {% for set in sets %}
                 <tr>
                     <td>{{set.exercise}}</td>
-                    <td>{{set.weight_kg}} kg</td>
+                    <td>{% mass_unit set.weight_kg %}</td>
                     <td>{{set.reps}}</td>
                 </tr>
                 {% endfor %}
