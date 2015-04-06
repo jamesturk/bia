@@ -21,16 +21,18 @@ def month(request, year, month):
     for workset in Set.objects.filter(user=request.user, date__year=year, date__month=month):
         sets_by_day[workset.date.day].add(workset.exercise)
     date = datetime.date(year, month, 1)
+
+    # build calendar
     first_day, max_days = calendar.monthrange(year, month)
-    # make first_day use 0 for sunday
+    # alter first_day to use 0 for sunday
     first_day = (first_day + 1) % 7
 
-    # start calendar with a few blank days
+    # start calendar with a few blank days, then put days into array
     days = [None]*first_day
-
     for day in range(1, max_days+1):
         days.append({'number': day, 'sets': sets_by_day[day]})
 
+    # split days up into weeks
     days_by_week = [days[0:7], days[7:14], days[14:21], days[21:28], days[28:35], days[35:42]]
 
     # prev and next month
@@ -44,13 +46,9 @@ def month(request, year, month):
         prev_date = datetime.date(year, month-1, 1)
         next_date = datetime.date(year, month+1, 1)
 
-
-
-    return render(request, 'month.html', {'date': date,
-                                          'days': days_by_week,
-                                          'prev_date': prev_date,
-                                          'next_date': next_date,
-                                          })
+    return render(request, 'lifting/month.html', {'date': date, 'days': days_by_week,
+                                                  'prev_date': prev_date, 'next_date': next_date
+                                                 })
 
 
 class FitnotesUploadForm(forms.Form):
@@ -72,4 +70,4 @@ def fitnotes_upload(request):
                 os.remove(fname)
     else:
         form = FitnotesUploadForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'lifting/fitnotes.html', {'form': form})
