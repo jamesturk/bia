@@ -14,7 +14,7 @@ from .models import Set
 
 
 @login_required
-def month(request, year, month):
+def month_lifts(request, year, month):
     year, month = int(year), int(month)
 
     sets_by_day = defaultdict(set)
@@ -49,6 +49,20 @@ def month(request, year, month):
     return render(request, 'lifting/month.html', {'date': date, 'days': days_by_week,
                                                   'prev_date': prev_date, 'next_date': next_date
                                                  })
+
+@login_required
+def day_lifts(request, year, month, day):
+    year, month, day = int(year), int(month), int(day)
+
+    sets = list(Set.objects.filter(user=request.user, date__year=year, date__month=month,
+                                   date__day=day))
+    date = datetime.date(year, month, day)
+    prev_date = date - datetime.timedelta(days=1)
+    next_date = date + datetime.timedelta(days=1)
+
+    return render(request, 'lifting/day.html', {'date': date, 'sets': sets,
+                                                'prev_date': prev_date, 'next_date': next_date
+                                               })
 
 
 class FitnotesUploadForm(forms.Form):

@@ -29,7 +29,9 @@
                 {% for day in week %}
                     <td class="calendar-day">
                         {% if day %}
-                        <div class="day-number">{{day.number}}</div>
+                        <div class="day-number">
+                            <a href="{% url 'lifting-day' date.year date.month day.number %}">{{day.number}}</a>
+                        </div>
                         <ul class="month-day-list">
                             {% for set in day.sets %}
                             <li>

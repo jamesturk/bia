@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="row header-row">
+    <section class="col-sm-12">
+        <a href="{% url 'lifting-day' prev_date.year prev_date.month prev_date.day %}">&larr; Previous</a>
+        <h3 class="month-name">{{date|date:"F d Y"}}</h3>
+        <a href="{% url 'lifting-day' next_date.year next_date.month next_date.day %}">Next &rarr;</a>
+    </section>
+</section>
+
+{% endblock %}
