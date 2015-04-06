@@ -33,8 +33,23 @@ def month(request, year, month):
 
     days_by_week = [days[0:7], days[7:14], days[14:21], days[21:28], days[28:35], days[35:42]]
 
-    return render(request, 'month.html', { 'date': date,
-                                          'days': days_by_week
+    # prev and next month
+    if date.month == 1:
+        prev_date = datetime.date(year-1, 12, 1)
+        next_date = datetime.date(year, 2, 1)
+    elif date.month == 12:
+        prev_date = datetime.date(year, 11, 1)
+        next_date = datetime.date(year+1, 1, 1)
+    else:
+        prev_date = datetime.date(year, month-1, 1)
+        next_date = datetime.date(year, month+1, 1)
+
+
+
+    return render(request, 'month.html', {'date': date,
+                                          'days': days_by_week,
+                                          'prev_date': prev_date,
+                                          'next_date': next_date,
                                           })
 
 

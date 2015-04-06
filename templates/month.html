@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="row">
-    <section class="col-sm-6">
-        <h3>{{date|date:"F Y"}}</h3>
+<section class="row header-row">
+    <section class="col-sm-12">
+        <a href="{% url 'lifting-month' prev_date.year prev_date.month %}">&larr; Previous</a>
+        <h3 class="month-name">{{date|date:"F Y"}}</h3>
+        <a href="{% url 'lifting-month' next_date.year next_date.month %}">Next &rarr;</a>
     </section>
 </section>
 
@@ -28,7 +30,7 @@
                     <td class="calendar-day">
                         {% if day %}
                         <div class="day-number">{{day.number}}</div>
-                        <ul>
+                        <ul class="month-day-list">
                             {% for set in day.sets %}
                             <li>
                             {{set}}
