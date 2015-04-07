@@ -7,7 +7,7 @@ urlpatterns = [
         name='lifting-month'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', views.day_lifts,
         name='lifting-day'),
-    url(r'^lifts/$', views.lift_list),
+    url(r'^lifts/$', views.lift_list, name='lift-list'),
     url(r'^lifts/(?P<lift_id>\d+)/$', views.by_lift, name='lift-detail'),
 
     url(r'^fitnotes/$', views.fitnotes_upload),
