@@ -11,6 +11,9 @@ SET_TYPES = (
 class Exercise(models.Model):
     names = ArrayField(models.CharField(max_length=200))
 
+    def display_name(self):
+        return self.names[0].title()
+
     def __str__(self):
         return ', '.join(self.names)
 

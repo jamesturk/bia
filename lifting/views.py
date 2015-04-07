@@ -8,9 +8,10 @@ from django.shortcuts import render
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.views.generic import dates
+from django.db.models import Count, Max
 
 from . import importers
-from .models import Set
+from .models import Set, Exercise
 
 
 @login_required
@@ -63,6 +64,20 @@ def day_lifts(request, year, month, day):
     return render(request, 'lifting/day.html', {'date': date, 'sets': sets,
                                                 'prev_date': prev_date, 'next_date': next_date
                                                })
+
+
+@login_required
+def lift_list(request):
+    lifts = Exercise.objects.filter(sets__user=request.user).annotate(
+        total=Count('sets'), max_kg=Max('sets__weight_kg'),
+        last_date=Max('sets__date'),
+    )
+    return render(request, 'lifting/lift_list.html', {'lifts': lifts})
+
+
+@login_required
+def by_lift(request, lift_id):
+    pass
 
 
 class FitnotesUploadForm(forms.Form):
