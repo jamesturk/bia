@@ -11,8 +11,8 @@ def create_profile(sender, created, instance, **kwargs):
 
 
 class ProfileConfig(AppConfig):
-    name = 'profile'
-    app_label = 'profile'
+    name = 'profiles'
+    app_label = 'profiles'
 
     def ready(self):
         post_save.connect(create_profile, sender=User)

@@ -21,7 +21,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_gravatar',
-    'profile',
+    'profiles',
     'lifting',
 )
 
