@@ -13,7 +13,10 @@ class MassNode(template.Node):
     def render(self, context):
         try:
             weight_kg = self.weight.resolve(context)
-            return round_to(weight_kg * decimal.Decimal("2.2046"), decimal.Decimal("0.125"))
+            if context['user'].profile.lifting_units == 'i':
+                return round_to(weight_kg * decimal.Decimal("2.2046"), decimal.Decimal("0.125"))
+            else:
+                return weight_kg
         except template.VariableDoesNotExist:
             return ''
 
