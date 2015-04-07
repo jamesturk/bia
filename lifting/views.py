@@ -31,7 +31,7 @@ def month_lifts(request, year, month):
     # start calendar with a few blank days, then put days into array
     days = [None]*first_day
     for day in range(1, max_days+1):
-        days.append({'number': day, 'sets': sets_by_day[day]})
+        days.append({'number': day, 'lifts': sets_by_day[day]})
 
     # split days up into weeks
     days_by_week = [days[0:7], days[7:14], days[14:21], days[21:28], days[28:35], days[35:42]]
@@ -71,7 +71,7 @@ def lift_list(request):
     lifts = Exercise.objects.filter(sets__user=request.user).annotate(
         total=Count('sets'), max_kg=Max('sets__weight_kg'),
         last_date=Max('sets__date'),
-    )
+    ).order_by('-last_date')
     return render(request, 'lifting/lift_list.html', {'lifts': lifts})
 
 

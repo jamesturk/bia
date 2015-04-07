@@ -33,9 +33,9 @@
                             <a href="{% url 'lifting-day' date.year date.month day.number %}">{{day.number}}</a>
                         </div>
                         <ul class="month-day-list">
-                            {% for set in day.sets %}
+                            {% for lift in day.lifts %}
                             <li>
-                            {{set}}
+                            <a href="{% url 'lift-detail' lift.id %}">{{lift.display_name}}</a>
                             </li>
                             {% endfor %}
                         </ul>

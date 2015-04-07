@@ -24,7 +24,7 @@
             <tbody>
                 {% for lift in lifts %}
                 <tr>
-                    <td>{{lift.display_name}}</td>
+                    <td><a href="{% url 'lift-detail' lift.id %}">{{lift.display_name}}</a></td>
                     <td>{{lift.total}}</td>
                     <td>{{lift.last_date}}</td>
                     <td>{% mass_unit lift.max_kg %} {% mass_label %}</td>
