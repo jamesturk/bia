@@ -77,7 +77,9 @@ def lift_list(request):
 
 @login_required
 def by_lift(request, lift_id):
-    pass
+    lift = Exercise.objects.get(pk=lift_id)
+    sets = Set.objects.filter(user=request.user, exercise=lift).order_by('-date')
+    return render(request, 'lifting/by_lift.html', {'lift': lift, 'sets': sets})
 
 
 class FitnotesUploadForm(forms.Form):

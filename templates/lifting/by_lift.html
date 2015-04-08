@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load lifting %}
+
+{% block content %}
+
+<section class="row header-row">
+    <section class="col-sm-12">
+        <h3>{{lift.display_name}}</h3>
+    </section>
+</section>
+
+<section class="row">
+    <section class="col-sm-12">
+        <table class="table lifts-table">
+            <thead>
+                <tr>
+                <th>Date</th>
+                <th>Reps</th>
+                <th>Weight</th>
+                </tr>
+            </thead>
+            {% regroup sets by date as set_list %}
+            <tbody>
+                {% for set_day in set_list %}
+                {% cycle "a-row" "b-row" as rowclass silent %}
+                <tr class="{{rowclass}}">
+                    <td rowspan="{{set_day.list|length|add:"1"}}">
+                        <a href="{% url 'lifting-day' set_day.grouper.year set_day.grouper.month set_day.grouper.day %}">
+                        {{set_day.grouper}}
+                        </a>
+                    </td>
+                </tr>
+                    {% for set in set_day.list %}
+                    <tr class="{{rowclass}}">
+                        <td>{{set.reps}}</td>
+                        <td>{% mass_unit set.weight_kg %} {% mass_label %}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor%}
+            </tbody>
+        </table>
+    </section>
+</section>
+
+{% endblock %}

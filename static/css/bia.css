@@ -31,3 +31,8 @@
 .month-day-list li {
     list-style: none;
 }
+.a-row {
+}
+.b-row {
+    background-color: #cacaca;
+}
