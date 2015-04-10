@@ -1,12 +1,8 @@
-import decimal
 from django import template
 from django.template.defaultfilters import stringfilter
-from lifting.utils import round_to
+from common import to_lb
 
 register = template.Library()
-
-def remove_exponent(d):
-    return d.quantize(decimal.Decimal(1)) if d == d.to_integral() else d.normalize()
 
 
 class MassNode(template.Node):
@@ -17,8 +13,7 @@ class MassNode(template.Node):
         try:
             weight_kg = self.weight.resolve(context)
             if context['user'].profile.lifting_units == 'i':
-                return remove_exponent(round_to(weight_kg * decimal.Decimal("2.2046"),
-                                                decimal.Decimal("0.125")))
+                return to_lb(weight_kg)
             else:
                 return remove_exponent(weight_kg)
         except template.VariableDoesNotExist:
@@ -26,7 +21,7 @@ class MassNode(template.Node):
 
 class MassLabelNode(template.Node):
     def render(self, context):
-        return {'i': 'lbs', 'm': 'kg'}[context['user'].profile.lifting_units]
+        return {'i': 'lb', 'm': 'kg'}[context['user'].profile.lifting_units]
 
 
 @register.tag
