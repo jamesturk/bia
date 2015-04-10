@@ -1,6 +1,10 @@
 {% extends "base.html" %}
+{% load lifting %}
 
 {% block content %}
+
+<form method="post">
+{% csrf_token %}
 
 <div class="row">
 <div class="col-sm-6">
@@ -37,22 +41,21 @@
                 <label class="col-sm-4 control-label">Lifting Units:</label>
                 <div class="col-sm-8">
                     <div class="radio">
-                        <input type="radio" name="lifting_unit" value="i">lbs</input>
+                        <input type="radio" name="lifting_units" value="i" {% if lifting_options.lifting_units == "i" %}checked{% endif %} >lb</input>
                     </div>
                     <div class="radio">
-                        <input type="radio" name="lifting_unit" value="m">kg</input>
+                        <input type="radio" name="lifting_units" value="m" {% if lifting_options.lifting_units == "m" %}checked{% endif %}>kg</input>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">Barbell:</label>
                 <div class="col-sm-8">
+                    {% for bar in bars %}
                     <div class="radio">
-                        <input type="radio" name="barbell" value="1">Men's Olympic (44lbs / 20kg) </input>
+                        <input type="radio" name="barbell" value="{{bar.id}}" {% if lifting_options.default_bar_id == bar.id %}checked{% endif %}>{{bar}}</input>
                     </div>
-                    <div class="radio">
-                        <input type="radio" name="barbell" value="2">Women's Olympic (33lbs / 15kg) </input>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="form-group">
@@ -63,37 +66,28 @@
                         <tr><td>Weight</td><td># of Pairs</td></tr>
                     </thead>
                     <tbody>
+                        {% for weight, n in plates %}
                         <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="45"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="2"></input></td>
+                            <td><input type="text" class="form-control" name="plate_weight" value="{{weight|decimal}}"></input></td>
+                            <td><input type="text" class="form-control" name="plate_number" value="{{n}}"></input></td>
                         </tr>
+                        {% endfor %}
                         <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="25"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="1"></input></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="10"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="1"></input></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="5"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="2"></input></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="2.5"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="1"></input></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control" name="plate_weight" value="1.25"></input></td>
-                            <td><input type="text" class="form-control" name="plate_number" value="1"></input></td>
+                            <td><input type="text" class="form-control" name="plate_weight" value=""></input></td>
+                            <td><input type="text" class="form-control" name="plate_number" value=""></input></td>
                         </tr>
                     </tbody>
                 </table>
                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12"><input type="submit" class="form-control" value="Save Changes"></input> </div>
             </div>
         </div>
     </div>
 </section>
 </div>
 </div>
+
+</form>
 {% endblock %}

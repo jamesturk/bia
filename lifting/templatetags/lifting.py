@@ -1,8 +1,11 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-from common import to_lb
+from common import to_lb, remove_exponent
 
 register = template.Library()
+
+
+register.filter('decimal', remove_exponent)
 
 
 class MassNode(template.Node):

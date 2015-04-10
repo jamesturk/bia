@@ -1,8 +1,9 @@
+import calendar
 import datetime
+import decimal
 import os
 import tempfile
-import calendar
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 from django.shortcuts import render
 from django import forms
@@ -10,8 +11,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import dates
 from django.db.models import Count, Max
 
+from inventory.models import Lift, Bar
 from .models import Set
-from inventory.models import Lift
+from .forms import LiftingOptionsForm
 
 
 @login_required
@@ -83,7 +85,25 @@ def by_lift(request, lift_id):
 
 
 @login_required
-def edit_profile(request):
-    form = request.user.profile
+def edit_options(request):
+    lifting_options = request.user.lifting_options
 
-    return render(request, 'profiles/edit.html', {'form': form})
+    if request.method == 'POST':
+        print(request.POST)
+        plates = []
+        for weight, number in zip(request.POST.getlist('plate_weight'),
+                                  request.POST.getlist('plate_number')):
+            if weight and number:
+                plates += [decimal.Decimal(weight)] * int(number)
+
+        lifting_options.plate_pairs = plates
+        lifting_options.default_bar_id = int(request.POST.get('barbell'))
+        lifting_options.lifting_units = request.POST.get('lifting_units')
+        lifting_options.save()
+
+    bars = Bar.objects.all()
+    plates = sorted(Counter(lifting_options.plate_pairs).items())
+
+    return render(request, 'profiles/edit.html', {'lifting_options': lifting_options,
+                                                  'bars': bars, 'plates': plates,
+                                                 })

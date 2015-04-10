@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^lifts/$', views.lift_list, name='lift-list'),
     url(r'^lifts/(?P<lift_id>\d+)/$', views.by_lift, name='lift-detail'),
 
-    url(r'^edit/$', views.edit_profile, name='edit-profile'),
+    url(r'^options/$', views.edit_options, name='edit-options'),
 ]
