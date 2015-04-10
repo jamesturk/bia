@@ -7,8 +7,8 @@ from django.db import models, migrations
 def make_bars(apps, schema_editor):
     Bar = apps.get_model('inventory', 'Bar')
     Bar.objects.bulk_create([
-        Bar(name="Women's Olympic", weight_kg='15'),
-        Bar(name="Men's Olympic", weight_kg='20'),
+        Bar(id=1, name="Men's Olympic", weight_kg='20'),
+        Bar(id=2, name="Women's Olympic", weight_kg='15'),
     ])
 
 
