@@ -16,7 +16,7 @@
         <table class="table day-workouts">
             <thead>
                 <tr>
-                <th>Exercise</th>
+                <th>Lift</th>
                 <th>Weight</th>
                 <th>Reps</th>
                 <tr>
@@ -24,7 +24,7 @@
             <tbody>
                 {% for set in sets %}
                 <tr>
-                    <td><a href="{% url 'lift-detail' set.exercise.id %}">{{set.exercise}}</a></td>
+                    <td><a href="{% url 'lift-detail' set.lift.id %}">{{set.lift}}</a></td>
                     <td>{% mass_unit set.weight_kg %}</td>
                     <td>{{set.reps}}</td>
                 </tr>

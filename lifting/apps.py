@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 
 
 def create_profile(sender, created, instance, **kwargs):
-    from .models import Profile
+    from .models import LiftingOptions
     if created:
-        Profile.objects.create(user=instance)
+        LiftingOptions.objects.create(user=instance)
 
 
-class ProfileConfig(AppConfig):
-    name = 'profiles'
-    app_label = 'profiles'
+class LiftingConfig(AppConfig):
+    name = 'lifting'
+    app_label = 'lifting'
 
     def ready(self):
         post_save.connect(create_profile, sender=User)

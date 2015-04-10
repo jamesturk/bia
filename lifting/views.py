@@ -11,7 +11,8 @@ from django.views.generic import dates
 from django.db.models import Count, Max
 
 from . import importers
-from .models import Set, Exercise
+from .models import Set
+from inventory.models import Lift
 
 
 @login_required
@@ -20,7 +21,7 @@ def month_lifts(request, year, month):
 
     sets_by_day = defaultdict(set)
     for workset in Set.objects.filter(user=request.user, date__year=year, date__month=month):
-        sets_by_day[workset.date.day].add(workset.exercise)
+        sets_by_day[workset.date.day].add(workset.lift)
     date = datetime.date(year, month, 1)
 
     # build calendar
@@ -68,7 +69,7 @@ def day_lifts(request, year, month, day):
 
 @login_required
 def lift_list(request):
-    lifts = Exercise.objects.filter(sets__user=request.user).annotate(
+    lifts = Lift.objects.filter(sets__user=request.user).annotate(
         total=Count('sets'), max_kg=Max('sets__weight_kg'),
         last_date=Max('sets__date'),
     ).order_by('-last_date')
@@ -77,8 +78,8 @@ def lift_list(request):
 
 @login_required
 def by_lift(request, lift_id):
-    lift = Exercise.objects.get(pk=lift_id)
-    sets = Set.objects.filter(user=request.user, exercise=lift).order_by('-date')
+    lift = Lift.objects.get(pk=lift_id)
+    sets = Set.objects.filter(user=request.user, lift=lift).order_by('-date')
     return render(request, 'lifting/by_lift.html', {'lift': lift, 'sets': sets})
 
 
@@ -87,18 +88,7 @@ class FitnotesUploadForm(forms.Form):
 
 
 @login_required
-def fitnotes_upload(request):
-    if request.method == 'POST':
-        form = FitnotesUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            _, fname = tempfile.mkstemp()
-            with open(fname, 'wb') as tmp:
-                for chunk in request.FILES['file'].chunks():
-                    tmp.write(chunk)
-            try:
-                importers.import_fitnotes_db(fname, request.user)
-            finally:
-                os.remove(fname)
-    else:
-        form = FitnotesUploadForm()
-    return render(request, 'lifting/fitnotes.html', {'form': form})
+def edit_profile(request):
+    form = request.user.profile
+
+    return render(request, 'profiles/edit.html', {'form': form})

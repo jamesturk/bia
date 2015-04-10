@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^lifts/$', views.lift_list, name='lift-list'),
     url(r'^lifts/(?P<lift_id>\d+)/$', views.by_lift, name='lift-detail'),
 
-    url(r'^fitnotes/$', views.fitnotes_upload),
+    url(r'^edit/$', views.edit_profile, name='edit-profile'),
 ]
