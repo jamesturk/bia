@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from . import importer
 
 @login_required
 def fitnotes_upload(request):
@@ -10,7 +11,7 @@ def fitnotes_upload(request):
                 for chunk in request.FILES['file'].chunks():
                     tmp.write(chunk)
             try:
-                importers.import_fitnotes_db(fname, request.user)
+                importer.import_fitnotes_db(fname, request.user)
             finally:
                 os.remove(fname)
     else:
