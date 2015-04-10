@@ -3,11 +3,26 @@ from django.db import transaction
 from lifting.models import Lift, Set
 
 
+DEFAULT_MAPPING = {
+    'flat barbell bench press': 'barbell bench press',
+    'barbell curl': 'barbell curl',
+    'deadlift': 'barbell deadlift',
+    'barbell squat': 'barbell squat',
+    'overhead press': 'standing overhead press',
+    'barbell front squat': 'barbell front squat',
+    'barbell row': 'barbell row',
+    'pull up': 'pull up',
+    'chin up': 'chin up',
+    'push up': 'push up',
+    'dumbbell curl': 'dumbbell curl',
+}
+
+
 def _clean_name(name):
     return name.lower()
 
 
-def import_fitnotes_db(filename, user, fitnotes_to_lift):
+def import_fitnotes_db(filename, user, fitnotes_to_lift=DEFAULT_MAPPING):
     # lift name => id
     lift_ids = {_clean_name(l.name): l.id for l in Lift.objects.all()}
 

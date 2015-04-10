@@ -3,5 +3,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^fitnotes/$', views.fitnotes_upload),
+    url(r'^upload/$', views.fitnotes_upload),
 ]

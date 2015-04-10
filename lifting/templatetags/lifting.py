@@ -12,7 +12,7 @@ class MassNode(template.Node):
     def render(self, context):
         try:
             weight_kg = self.weight.resolve(context)
-            if context['user'].profile.lifting_units == 'i':
+            if context['user'].lifting_options.lifting_units == 'i':
                 return to_lb(weight_kg)
             else:
                 return remove_exponent(weight_kg)
@@ -21,7 +21,7 @@ class MassNode(template.Node):
 
 class MassLabelNode(template.Node):
     def render(self, context):
-        return {'i': 'lb', 'm': 'kg'}[context['user'].profile.lifting_units]
+        return {'i': 'lb', 'm': 'kg'}[context['user'].lifting_options.lifting_units]
 
 
 @register.tag

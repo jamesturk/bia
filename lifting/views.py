@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import dates
 from django.db.models import Count, Max
 
-from . import importers
 from .models import Set
 from inventory.models import Lift
 
@@ -81,10 +80,6 @@ def by_lift(request, lift_id):
     lift = Lift.objects.get(pk=lift_id)
     sets = Set.objects.filter(user=request.user, lift=lift).order_by('-date')
     return render(request, 'lifting/by_lift.html', {'lift': lift, 'sets': sets})
-
-
-class FitnotesUploadForm(forms.Form):
-    file = forms.FileField()
 
 
 @login_required

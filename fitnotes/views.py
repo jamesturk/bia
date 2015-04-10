@@ -1,5 +1,12 @@
+import os
+import tempfile
+from django import forms
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from . import importer
+
+class FitnotesUploadForm(forms.Form):
+    file = forms.FileField()
 
 @login_required
 def fitnotes_upload(request):
