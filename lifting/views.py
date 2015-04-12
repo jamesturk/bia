@@ -6,14 +6,12 @@ import tempfile
 from collections import defaultdict, Counter
 
 from django.shortcuts import render
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.views.generic import dates
 from django.db.models import Count, Max
 
 from inventory.models import Lift, Bar
 from .models import Set
-from .forms import LiftingOptionsForm
 
 
 @login_required

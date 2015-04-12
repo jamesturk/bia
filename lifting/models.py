@@ -18,7 +18,7 @@ class LiftingOptions(models.Model):
     user = models.OneToOneField(User, related_name='lifting_options')
 
     lifting_units = models.CharField(max_length=1, choices=UNITS, default='i')
-    default_bar = models.ForeignKey(Bar)
+    default_bar = models.ForeignKey(Bar, default=1)
     plate_pairs = ArrayField(models.DecimalField(max_digits=7, decimal_places=3),
                              default=['45','45','25','10','5','5','2.5','1.25'])
 
