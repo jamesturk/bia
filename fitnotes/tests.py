@@ -31,7 +31,8 @@ class TestFitnotesImport(TestCase):
 
     def test_basic_import(self):
         # ensure that the data comes in
-        import_fitnotes_db('fitnotes/testdata/example.fitnotes', self.user, self.good_mapping)
+        num = import_fitnotes_db('fitnotes/testdata/example.fitnotes', self.user, self.good_mapping)
+        assert num == 9
         assert Set.objects.filter(lift=self.bench).count() == 4
         assert Set.objects.filter(lift=self.squat).count() == 5
 
@@ -53,10 +54,9 @@ class TestFitnotesImport(TestCase):
             import_fitnotes_db('fitnotes/testdata/example.fitnotes', self.user, self.bad_mapping)
         assert Set.objects.filter(lift=self.bench).count() == 0
 
-    def test_bad_data_import(self):
+    def test_bad_data_doesnt_overwrite(self):
         # good db then bad db, should fail without screwing up existing data
         import_fitnotes_db('fitnotes/testdata/example.fitnotes', self.user, self.good_mapping)
-        with self.assertRaises(Exception):
-            # baddata.fitnotes has all lift ids set to 9999
-            import_fitnotes_db('fitnotes/testdata/baddata.fitnotes', self.user, self.good_mapping)
+        with self.assertRaises(ValueError):
+            import_fitnotes_db('fitnotes/testdata/example.fitnotes', self.user, self.bad_mapping)
         assert Set.objects.count() == 9
