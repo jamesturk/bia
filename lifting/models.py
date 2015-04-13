@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
@@ -22,6 +23,18 @@ class LiftingOptions(models.Model):
     plate_pairs = ArrayField(models.DecimalField(max_digits=7, decimal_places=3),
                              default=['45','45','25','10','5','5','2.5','1.25'])
 
+    def plates_for_weight(self, weight):
+        side = []
+        w = initial_weight = Decimal(weight) - self.default_bar.weight_lb
+        available = sorted(self.plate_pairs, reverse=True)
+        while w and available:
+            plate = available.pop(0)
+            if plate * 2 <= w:
+                w -= plate * 2
+                side.append(plate)
+        if sum(side) * 2 != initial_weight:
+            raise ValueError('remaining weight {}'.format(initial_weight - sum(side) * 2))
+        return side
 
 class Set(models.Model):
     user = models.ForeignKey(User, related_name='sets')

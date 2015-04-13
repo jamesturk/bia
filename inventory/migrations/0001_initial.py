@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
                 ('weight_kg', models.DecimalField(max_digits=7, decimal_places=3)),
+                ('weight_lb', models.DecimalField(max_digits=7, decimal_places=3)),
             ],
         ),
         migrations.CreateModel(
