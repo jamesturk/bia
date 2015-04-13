@@ -25,7 +25,12 @@ class LiftingOptions(models.Model):
 
     def plates_for_weight(self, weight):
         side = []
-        w = initial_weight = Decimal(weight) - self.default_bar.weight_lb
+        w = Decimal(weight)
+        if self.lifting_units == 'i':
+            w -= self.default_bar.weight_lb
+        else:
+            w -= self.default_bar.weight_kg
+        initial_weight = w
         available = sorted(self.plate_pairs, reverse=True)
         while w and available:
             plate = available.pop(0)
