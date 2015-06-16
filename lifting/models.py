@@ -41,6 +41,16 @@ class LiftingOptions(models.Model):
             raise ValueError('remaining weight {}'.format(initial_weight - sum(side) * 2))
         return side
 
+
+class LiftOptions(models.Model):
+    user = models.ForeignKey(User, related_name='lift_options')
+    lift = models.ForeignKey(Lift, related_name='options')
+
+    bar = models.ForeignKey(Bar, null=True)
+    extra_start_weight = models.DecimalField(max_digits=7, decimal_places=3, default=0)
+    increment = models.DecimalField(max_digits=5, decimal_places=3, default=5)
+
+
 class Set(models.Model):
     user = models.ForeignKey(User, related_name='sets')
     date = models.DateField()
