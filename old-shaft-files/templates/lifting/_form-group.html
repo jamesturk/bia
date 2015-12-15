@@ -1,0 +1,7 @@
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+    <label class="col-md-2 control-label" for="{{field.id_for_label}}">{{field.label}}: </label>
+    <div class="col-md-{{size}}{% if units %}input-group{% endif %}">
+    <input type="text" class="form-control" id="{{field.id_for_label}}" name="{{field.html_name}}" value="{{field.value}}" />
+    {% if units %}<span class="input-group-addon">{{units}}</span>{% endif %}
+    </div>
+</div>

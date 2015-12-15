@@ -1,0 +1,56 @@
+{% extends "lifting/base.html" %}
+{% load lifting %}
+
+{% block content %}
+<form class="form-horizontal" method="POST">
+    {% csrf_token %}
+    <h3>Global Settings</h3>
+    {{grform.bar|formfield:"2,lbs"}}
+    {{grform.plates|formfield:"3,lbs"}}
+    <hr>
+    <h3>Exercise Settings</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Exercise</th>
+            <th>Start Weight</th>
+            <th>Increment</th>
+            <th>Working Weight</th>
+        </tr>
+        </thead>
+        <tbody id="exercise-rules">
+        {% for er in exercise_rules %}
+            {% include "lifting/_er-row.html" %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <div class="form-group">
+        <div class="col-md-2">
+            <button id="add-exercise" type="button" class="btn">Add Exercise: </button>
+        </div>
+        <div class="col-md-5">
+            <select id="new-exercise" class="form-control">
+                {% for exercise in exercises %}
+                <option value="{{exercise.id}}">{{exercise}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+</form>
+{% endblock content %}
+
+{% block script %}
+<script>
+$(function() {
+    $('#add-exercise').click(function() {
+        var val = $('#new-exercise').val();
+        $.get('/_er-row/' + val + '/', function(data) {
+            $('#exercise-rules').append(data);
+            $('#new-exercise > option[value=' + val + ']').remove();
+        });
+    });
+});
+</script>
+{% endblock %}

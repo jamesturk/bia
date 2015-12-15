@@ -1,0 +1,36 @@
+{% extends "lifting/base.html" %}
+{% load lifting %}
+
+{% block content %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Plan</th>
+        <th>Tags</th>
+        <th>Popularity</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody id="exercise-rules">
+    {% for plan in plans %}
+    <tr>
+        <td><a href="{{plan.get_absolute_url}}">{{plan}}</a></td>
+        <td>
+            {% for tag in plan.tags.all %}
+            <span style="background-color: #{{tag.color}};" class="label">{{tag.name}}</span>
+            {% endfor %}
+        </td>
+        <td>{{plan.popularity}}</td>
+        <td>clone</td>
+        <td>use plan</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
+
+{% block script %}
+<script>
+</script>
+{% endblock %}

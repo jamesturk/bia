@@ -1,0 +1,54 @@
+{% extends "lifting/base.html" %}
+{% load lifting %}
+
+{% block content %}
+
+<form class="form-horizontal" method="POST">
+
+{{pform.name|formfield:"3"}}
+{{pform.tags|formfield:"5"}}
+
+<hr>
+
+<div class="row">
+    {% for day in plan.days.all %}
+    <div class="col-md-6">
+        <div class="form-group">
+        <label class="col-md-2 control-label" for="day.name">Day: </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="day.name" name="day.name" value="{{day.name}}" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <th>Exercise</th><th>Sets</th><th>Percent</th>
+            </thead>
+            <tbody>
+                {% for e in day.exercises.all %}
+                <tr>
+                    <td>
+                    <select id="new-exercise" class="form-control">
+                        {% for exercise in exercises %}
+                        <option value="{{exercise.id}}" {% if e.exercise_id == exercise.id %}selected{% endif %}>{{exercise}}</option>
+                        {% endfor %}
+                    </select>
+                    </td>
+                    <td>{{e.get_set_display}}</td>
+                    <td>{{e.get_percent_display}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+</div>
+
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "lifting/base.html" %}
+{% load lifting %}
+
+{% block content %}
+<h2>{{plan}}</h2>
+
+<div class="row">
+    {% for day in plan.days.all %}
+    <div class="col-md-4">
+        <h4>{{day.name}}</h4>
+        <table class="table">
+            <thead>
+                <th>Exercise</th><th>Sets</th><th>Percent</th>
+            </thead>
+            <tbody>
+                {% for e in day.exercises.all %}
+                <tr>
+                    <td>{{e.exercise}}</td>
+                    <td>{{e.get_set_display}}</td>
+                    <td>{{e.get_percent_display}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+</script>
+{% endblock %}
